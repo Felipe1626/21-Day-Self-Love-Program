@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Programa de 21 Días Amor Propio</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuración para usar la fuente Inter y tonos personalizados -->
+
+    <script>
+
+        tailwind.config = {
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        'primary-indigo': '#5B21B6', // deep-indigo-700
+
+                        'light-bg': '#F9FAFB', // very light gray
+
+                        'day-card': '#EDE9FE', // light purple-100
+
+                        'morning-card': '#FFFBEB', // yellow-50
+
+                        'night-card': '#EEF2FF', // indigo-50
+
+                        'success-green': '#10B981', // emerald-500
+
+                        'rescue-red': '#DC2626', // red-600
+
+                        'info-gray': '#9CA3AF', // gray-400 for info button
+
+                        'week-focus': '#9333EA', // purple-700
+
+                    },
+
+                    fontFamily: {
+
+                        sans: ['Inter', 'sans-serif'],
+
+                    },
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+    <style>
+
+        /* Estilos del botón de la cuadrícula: SIN CAMBIOS */
+
+        .day-button {
+
+            transition: all 0.2s;
+
+            aspect-ratio: 1 / 1;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+
+        }
+
+        .day-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .day-button:active {
+
+            transform: translateY(0);
+
+            box-shadow: none;
+
+        }
+
+
+
+        /* ESTILOS DE BOTONES DE ACCIÓN (Compartido con estiramientos y rescate) */
+
+        .action-button-style {
+
+            transition: all 0.2s;
+
+            cursor: pointer;
+
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+
+        }
+
+        .action-button-style:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .action-button-style:active {
+
+            transform: translateY(0);
+
+            box-shadow: none;
+
+        }
+
+       
+
+        .modal-overlay {
+
+            z-index: 50;
+
+        }
+
+
+
+        /* Estilo para el botón deshabilitado (no afecta la parte visual del diseño base) */
+
+        .disabled-button {
+
+            cursor: not-allowed;
+
+            opacity: 0.6;
+
+            box-shadow: none !important;
+
+            transform: none !important;
+
+        }
+
+    </style>
+
+</head>
+
+<body class="bg-light-bg font-sans min-h-screen">
+
+
+
+    <!-- Contenido del Programa -->
+
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Título principal -->
+
+        <header class="text-center mb-6 mt-4">
+
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-primary-indigo tracking-tight">
+
+                Programa de 21 Días Amor Propio
+
+            </h1>
+
+            <p class="mt-3 text-xl text-gray-600">
+
+                Tu camino hacia la transformación y el bienestar.
+
+            </p>
+
+           
+
+            <!-- NUEVO: OBJETIVOS SEMANALES (Añadido aquí) -->
+
+            <div class="mt-6 p-4 bg-white rounded-xl shadow-lg border-t-4 border-week-focus">
+
+                <h2 class="text-xl font-extrabold text-week-focus mb-3">Objetivos por Semana</h2>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
+
+                    <div class="p-2 bg-indigo-50 rounded-lg border-l-4 border-indigo-400">
+
+                        <span class="text-xs font-semibold text-gray-600 block">Semana 1 (Días 1-7)</span>
+
+                        <span class="font-bold text-sm text-primary-indigo">Bienvenida y Gratitud</span>
+
+                    </div>
+
+                    <div class="p-2 bg-indigo-50 rounded-lg border-l-4 border-indigo-400">
+
+                        <span class="text-xs font-semibold text-gray-600 block">Semana 2 (Días 8-14)</span>
+
+                        <span class="font-bold text-sm text-primary-indigo">Energía y Movimiento</span>
+
+                    </div>
+
+                    <div class="p-2 bg-indigo-50 rounded-lg border-l-4 border-indigo-400">
+
+                        <span class="text-xs font-semibold text-gray-600 block">Semana 3 (Días 15-21)</span>
+
+                        <span class="font-bold text-sm text-primary-indigo">Transformación y Sostenibilidad</span>
+
+                    </div>
+
+                    <!-- Adaptado a 3 semanas (21 días) -->
+
+                    <div class="p-2 bg-indigo-50 rounded-lg border-l-4 border-indigo-400 hidden md:block opacity-0">
+
+                        <span class="text-xs font-semibold text-gray-600 block">Semana 4</span>
+
+                        <span class="font-bold text-sm text-primary-indigo">Cierre</span>
+
+                    </div>
+
+                   
+
+                </div>
+
+                <div class="mt-4 text-center">
+
+                    <span class="text-sm font-bold text-week-focus">¡Nota!</span>
+
+                    <span class="text-sm text-gray-700">El Día 21 es la celebración del proceso.</span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CONTENEDOR DE BOTONES DE ENCABEZADO -->
+
+            <div class="mt-6 flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+
+               
+
+                <!-- BOTÓN AÑADIDO: Información sobre Fibromialgia -->
+
+                <a href="https://fibroytransformacion.wixsite.com/fibromialgia/blog" target="_blank"
+
+                   class="action-button-style px-4 py-2 bg-info-gray text-white font-extrabold rounded-full hover:bg-gray-500 transition duration-200 shadow-lg border-b-4 border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 text-base sm:text-lg flex items-center justify-center">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z"/>
+
+                    </svg>
+
+                    Más Información sobre Fibromialgia
+
+                </a>
+
+
+
+                <!-- BOTÓN: Plan de Rescate (Mantiene el tamaño reducido del paso anterior) -->
+
+                <button onclick="openCrisisModal()"
+
+                        class="action-button-style px-4 py-2 bg-rescue-red text-white font-extrabold rounded-full hover:bg-red-700 transition duration-200 shadow-lg border-b-4 border-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-base sm:text-lg flex items-center justify-center">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+
+                        <path d="M11.953 2C6.465 2 2 6.48 2 12s4.465 10 9.953 10c5.487 0 9.953-4.48 9.953-10S17.44 2 11.953 2zm-.99 15h1.98v-1.98h-1.98V17zm.058-2.973h.007c.552 0 .992-.44.992-.992v-4.004c0-.552-.44-.992-.992-.992h-.007c-.552 0-.992.44-.992.992v4.004c0 .552.44.992.992.992z"/>
+
+                    </svg>
+
+                    PLAN DE RESCATE (Crisis de Dolor)
+
+                </button>
+
+               
+
+            </div>
+
+           
+
+        </header>
+
+
+
+        <!-- Cuadrícula de Días (El Plano) -->
+
+        <main class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 p-4 bg-white rounded-xl shadow-2xl">
+
+            <!-- Los botones se generarán con JS -->
+
+        </main>
+
+    </div>
+
+
+
+    <!-- MODAL 1: Contenido Diario -->
+
+    <div id="dayContentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden modal-overlay items-center justify-center p-4" onclick="closeDayModal()">
+
+        <div class="bg-white rounded-xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto transform transition-all shadow-2xl" onclick="event.stopPropagation()">
+
+            <div class="flex justify-between items-start mb-4">
+
+                <h2 id="modalTitle" class="text-3xl font-bold text-primary-indigo"></h2>
+
+                <button onclick="closeDayModal()" class="text-gray-400 hover:text-gray-700 transition duration-150">
+
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+
+                </button>
+
+            </div>
+
+            <!-- Contenido Dinámico (Específico del Día) -->
+
+            <div id="modalDayContent" class="text-gray-700 leading-relaxed space-y-4 mb-8">
+
+                <!-- Contenido específico del día -->
+
+            </div>
+
+           
+
+            <!-- Contenido Fijo (Rutinas, Estiramientos y Descarga) -->
+
+            <div id="modalFixedRoutines" class="space-y-6 border-t pt-4">
+
+                <!-- Aquí se inyectarán las rutinas, el botón de estiramientos y el de descarga (solo Día 21) -->
+
+            </div>
+
+
+
+            <button onclick="closeDayModal()" class="mt-6 w-full py-3 bg-primary-indigo text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200 shadow-md">
+
+                Cerrar
+
+            </button>
+
+        </div>
+
+    </div>
+
+   
+
+    <!-- MODAL 2: Protocolo de Crisis -->
+
+    <div id="crisisProtocolModal" class="fixed inset-0 bg-black bg-opacity-50 hidden modal-overlay items-center justify-center p-4" onclick="closeCrisisModal()">
+
+        <div class="bg-white rounded-xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto transform transition-all shadow-2xl" onclick="event.stopPropagation()">
+
+            <div class="flex justify-between items-start mb-4">
+
+                <h2 class="text-3xl font-bold text-rescue-red flex items-center">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2" viewBox="0 0 24 24" fill="currentColor">
+
+                        <path d="M11.953 2C6.465 2 2 6.48 2 12s4.465 10 9.953 10c5.487 0 9.953-4.48 9.953-10S17.44 2 11.953 2zm-.99 15h1.98v-1.98h-1.98V17zm.058-2.973h.007c.552 0 .992-.44.992-.992v-4.004c0-.552-.44-.992-.992-.992h-.007c-.552 0-.992.44-.992.992v4.004c0 .552.44.992.992.992z"/>
+
+                    </svg>
+
+                    Plan de Rescate en Crisis de Dolor
+
+                </h2>
+
+                <button onclick="closeCrisisModal()" class="text-gray-400 hover:text-gray-700 transition duration-150">
+
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+
+                </button>
+
+            </div>
+
+
+
+            <div class="text-gray-700 leading-relaxed space-y-4">
+
+                <p class="font-semibold text-sm italic text-gray-600 border-b pb-2">
+
+                    Este plan se activa cuando surge una crisis o un momento difícil. Está diseñado para ayudarte a evaluar, sostenerte y cuidar de ti misma con amor y conciencia.
+
+                </p>
+
+
+
+                <!-- 1. Evalúa la situación -->
+
+                <div class="p-3 bg-red-50 rounded-lg border-l-4 border-rescue-red">
+
+                    <h3 class="font-extrabold text-xl text-rescue-red">1. Evalúa la Situación</h3>
+
+                    <p class="mt-1">Hazte esta pregunta:</p>
+
+                    <p class="mt-1 font-bold italic">“¿Necesito asistencia médica o puedo manejarlo en casa?”</p>
+
+                    <p class="text-sm mt-1">Si los síntomas son intensos o diferentes a lo habitual, **busca ayuda médica**.</p>
+
+                </div>
+
+               
+
+                <!-- 2. Si puedes manejarlo en casa -->
+
+                <h3 class="font-extrabold text-xl text-primary-indigo border-b pb-1 pt-2">2. Si puedes manejarlo en casa...</h3>
+
+
+
+                <!-- 3. Respira conscientemente -->
+
+                <div class="p-3 bg-indigo-50 rounded-lg">
+
+                    <h4 class="font-bold text-lg text-primary-indigo">3. Respira Consciente (3-5 minutos)</h4>
+
+                    <p class="text-sm">Inhala contando **4**, retén **2**, exhala **6**. Siente cómo el aire limpia tu cuerpo desde dentro.</p>
+
+                </div>
+
+
+
+                <!-- 4. Conecta con un anclaje emocional -->
+
+                <div class="p-3 bg-indigo-50 rounded-lg">
+
+                    <h4 class="font-bold text-lg text-primary-indigo">4. Conecta con un Anclaje Emocional</h4>
+
+                    <p class="text-sm">Toma algo suave o significativo (una piedra, peluche, amuleto). Recuerda: <span class="font-bold italic">“Esto también pasará”</span>.</p>
+
+                </div>
+
+
+
+                <!-- 5. Música sanadora o sonidos naturales -->
+
+                <div class="p-3 bg-indigo-50 rounded-lg">
+
+                    <h4 class="font-bold text-lg text-primary-indigo">5. Música Sanadora</h4>
+
+                    <p class="text-sm">Elige melodías suaves, cuencos tibetanos, olas del mar o sonidos del bosque; evita pantallas o noticias.</p>
+
+                </div>
+
+
+
+                <!-- 6. Aplica calor o fresco -->
+
+                <div class="p-3 bg-indigo-50 rounded-lg">
+
+                    <h4 class="font-bold text-lg text-primary-indigo">6. Aplica Calor o Fresco</h4>
+
+                    <p class="text-sm">Compresas tibias para contracturas, frías para inflamación. Hazlo con calma, cuidándote desde el amor.</p>
+
+                </div>
+
+
+
+                <!-- 7. Visualización energética -->
+
+                <div class="p-3 bg-indigo-50 rounded-lg">
+
+                    <h4 class="font-bold text-lg text-primary-indigo">7. Visualización Energética</h4>
+
+                    <p class="text-sm">Imagina una luz violeta recorriendo el área afectada. Con cada respiración, la luz **disuelve el dolor** y lo transforma en calma.</p>
+
+                </div>
+
+
+
+                <!-- Después de la crisis -->
+
+                <h3 class="font-extrabold text-xl text-primary-indigo border-b pb-1 pt-2">Después de la Crisis</h3>
+
+                <ul class="list-disc list-inside space-y-1 ml-4 text-sm">
+
+                    <li>Anota qué sentiste y qué te ayudó más.</li>
+
+                    <li>Agradece a tu cuerpo por resistir una vez más.</li>
+
+                    <li>Hazte una pequeña promesa amorosa: <span class="font-bold italic">“Mañana me cuidaré un poquito más.”</span></li>
+
+                </ul>
+
+
+
+                <!-- Intención del plan -->
+
+                <div class="p-3 bg-primary-indigo text-white rounded-lg mt-4">
+
+                    <h4 class="font-extrabold text-lg">Intención del Plan:</h4>
+
+                    <p class="text-sm">No es para eliminar el dolor, sino para transformar tu relación con él, aprender a escucharlo y responder con **compasión**, no con miedo. Es un recordatorio de tu fuerza interior.</p>
+
+                </div>
+
+            </div>
+
+
+
+            <button onclick="closeCrisisModal()" class="mt-6 w-full py-3 bg-rescue-red text-white font-semibold rounded-lg hover:bg-red-700 transition duration-200 shadow-md">
+
+                Entendido, Cerrar Plan
+
+            </button>
+
+        </div>
+
+    </div>
+
+   
+
+    <!-- Mensaje de Carga/Guardado -->
+
+    <div id="loadingToast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-xl hidden z-50 transition duration-300">
+
+        Cargando progreso...
+
+    </div>
+
+
+
+    <script type="module">
+
+        // Importaciones de Firebase
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection, getDocs, query, where, writeBatch, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+
+
+        // Globales proporcionadas por el entorno
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+         firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+
+        // Inicialización corregida
+
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+
+
+        let app, db, auth, userId = null;
+
+        let isAuthReady = false;
+
+
+
+        // Mostrar un mensaje temporal
+
+        function showToast(message, duration = 3000) {
+
+            const toast = document.getElementById('loadingToast');
+
+            toast.textContent = message;
+
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+
+                toast.classList.add('hidden');
+
+            }, duration);
+
+        }
+
+
+
+        // --- INICIALIZACIÓN DE FIREBASE ---
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBVudeIGPGEz-AMvWnbDZ16Hwru63mx1ok",
+  authDomain: "programa-21-dias.firebaseapp.com",
+  databaseURL: "https://programa-21-dias-default-rtdb.firebaseio.com",
+  projectId: "programa-21-dias",
+  storageBucket: "programa-21-dias.firebasestorage.app",
+  messagingSenderId: "685743291261",
+  appId: "1:685743291261:web:13ee6cff1bce8ccd782a14"
+};
+
+// Initialize Firebase
+ app = initializeApp(firebaseConfig);
+
+        async function initializeFirebase() {
+
+            try {
+
+                // setLogLevel('Debug'); // Útil para depuración
+
+                app = initializeApp(firebaseConfig);
+
+                db = getFirestore(app);
+
+                auth = getAuth(app);
+
+
+
+                // Autenticación
+
+                if (initialAuthToken) {
+
+                    await signInWithCustomToken(auth, initialAuthToken);
+
+                } else {
+
+                    await signInAnonymously(auth);
+
+                }
+
+
+
+                // Esperar a que el estado de autenticación cambie
+
+                onAuthStateChanged(auth, (user) => {
+
+                    if (user) {
+
+                        userId = user.uid;
+
+                        isAuthReady = true;
+
+                        // console.log("Firebase Auth Ready. User ID:", userId);
+
+                    } else {
+
+                        // Si falla la autenticación, usar un ID aleatorio para almacenar (modo anónimo/local)
+
+                        userId = crypto.randomUUID();
+
+                        isAuthReady = true;
+
+                        // console.log("Firebase Auth Ready (Anonymous/Fallback). User ID:", userId);
+
+                    }
+
+                });
+
+
+
+            } catch (error) {
+
+                console.error("Error al inicializar Firebase:", error);
+
+                showToast("Error al conectar la base de datos.");
+
+            }
+
+        }
+
+       
+
+        // --- UTILIDADES DE DATOS ---
+
+
+
+        /**
+
+         * Obtiene la referencia al documento de progreso de un día.
+
+         * @param {number} dayIndex - El índice del día (0-20).
+
+         * @returns {object} Referencia del documento de Firestore.
+
+         */
+
+        function getDayDocRef(dayIndex) {
+
+            if (!userId || !appId) return null;
+
+            const dayId = `day-${dayIndex + 1}`;
+
+            // Path: /artifacts/{appId}/users/{userId}/challenge_progress/{day-X}
+
+            return doc(db, 'artifacts', appId, 'users', userId, 'challenge_progress', dayId);
+
+        }
+
+
+
+        /**
+
+         * Guarda el progreso de un día en Firestore.
+
+         * @param {number} dayIndex - Índice del día (0-20).
+
+         * @param {string} field - El nombre del campo (e.g., 'morningAffirmation').
+
+         * @param {string} value - El valor a guardar.
+
+         * @param {number | null} activityIndex - Índice de actividad para campos de array, o null.
+
+         */
+
+        async function saveProgress(dayIndex, field, value, activityIndex = null) {
+
+            if (!isAuthReady) {
+
+                console.warn("Base de datos no lista. No se pudo guardar.");
+
+                return;
+
+            }
+
+
+
+            const docRef = getDayDocRef(dayIndex);
+
+            if (!docRef) return;
+
+           
+
+            showToast("Guardando progreso...");
+
+
+
+            try {
+
+                // Obtener el documento actual para manejar arrays (dayActivities)
+
+                const docSnap = await getDoc(docRef);
+
+                let updateData = {};
+
+               
+
+                if (field === 'dayActivities') {
+
+                    // Manejo de campos de tipo array
+
+                    let activities = docSnap.exists() && docSnap.data().dayActivities ? docSnap.data().dayActivities : [];
+
+                    // Asegurar que el array tenga al menos el tamaño necesario
+
+                    if (activityIndex >= activities.length) {
+
+                        // Rellenar con cadenas vacías si es necesario para mantener el índice
+
+                        // Nota: El método map para asignar valores en el array es más seguro
+
+                        activities = Array.isArray(activities) ? activities : [];
+
+                        activities[activityIndex] = value;
+
+                    } else {
+
+                        activities[activityIndex] = value;
+
+                    }
+
+                    updateData[field] = activities;
+
+                } else {
+
+                    // Manejo de campos simples (string)
+
+                    updateData[field] = value;
+
+                }
+
+               
+
+                // Usar setDoc con merge: true para solo actualizar los campos necesarios
+
+                await setDoc(docRef, updateData, { merge: true });
+
+                // console.log(`Progreso guardado para el Día ${dayIndex + 1}: ${field}`);
+
+                showToast("Progreso guardado con éxito.", 1500);
+
+
+
+            } catch (error) {
+
+                console.error("Error al guardar el progreso:", error);
+
+                showToast("Error al guardar el progreso.", 3000);
+
+            }
+
+        }
+
+
+
+        /**
+
+         * Carga el progreso de un día y llena los campos del modal.
+
+         * @param {number} dayIndex - Índice del día (0-20).
+
+         */
+
+        async function loadDayProgress(dayIndex) {
+
+            if (!isAuthReady) return;
+
+
+
+            const docRef = getDayDocRef(dayIndex);
+
+            if (!docRef) return;
+
+           
+
+            showToast("Cargando progreso...");
+
+
+
+            try {
+
+                const docSnap = await getDoc(docRef);
+
+                const data = docSnap.exists() ? docSnap.data() : {};
+
+               
+
+                // Recorrer todos los elementos de entrada en el modal
+
+                const modal = document.getElementById('dayContentModal'); // Usar el modal correcto
+
+                const inputs = modal.querySelectorAll('textarea[data-field]');
+
+               
+
+                inputs.forEach(input => {
+
+                    const field = input.dataset.field;
+
+                    const activityIndex = input.dataset.activityIndex;
+
+                   
+
+                    if (field === 'dayActivities' && activityIndex !== undefined) {
+
+                        // Llenar campos de actividad (si son arrays)
+
+                        const index = parseInt(activityIndex, 10);
+
+                        if (data.dayActivities && data.dayActivities.length > index) {
+
+                            input.value = data.dayActivities[index] || '';
+
+                        } else {
+
+                            input.value = '';
+
+                        }
+
+                    } else if (data[field] !== undefined) {
+
+                        // Llenar campos simples
+
+                        input.value = data[field] || '';
+
+                    } else {
+
+                         input.value = '';
+
+                    }
+
+                });
+
+               
+
+                showToast("Progreso cargado con éxito.", 1000);
+
+
+
+            } catch (error) {
+
+                console.error("Error al cargar el progreso:", error);
+
+                showToast("Error al cargar el progreso.", 3000);
+
+            }
+
+        }
+
+
+
+        /**
+
+         * Adjunta listeners de guardado a todos los campos del modal.
+
+         * @param {number} dayIndex - Índice del día (0-20).
+
+         */
+
+        function attachInputListeners(dayIndex) {
+
+            const modal = document.getElementById('dayContentModal');
+
+            const inputs = modal.querySelectorAll('textarea[data-field]');
+
+           
+
+            inputs.forEach(input => {
+
+                // Eliminar listener previo (si existe) para evitar duplicados
+
+                input.onblur = null;
+
+                input.onblur = () => {
+
+                    const field = input.dataset.field;
+
+                    const value = input.value.trim();
+
+                    const activityIndex = input.dataset.activityIndex !== undefined ? parseInt(input.dataset.activityIndex, 10) : null;
+
+                   
+
+                    saveProgress(dayIndex, field, value, activityIndex);
+
+                };
+
+            });
+
+        }
+
+       
+
+        // --- LÓGICA DE DÍA 21 Y BOTONES ---
+
+
+
+        /**
+
+         * Cuenta cuántos días tienen al menos un registro de actividad.
+
+         * Un día cuenta como activo si tiene al menos una de las siguientes:
+
+         * morningAffirmation, morningIntention, nightGratitude, o alguna entrada en dayActivities.
+
+         * @returns {Promise<number>} Número de días activos.
+
+         */
+
+        async function countActiveDays() {
+
+            if (!isAuthReady || !userId || !appId) return 0;
+
+
+
+            const progressRef = collection(db, 'artifacts', appId, 'users', userId, 'challenge_progress');
+
+           
+
+            try {
+
+                // Obtenemos todos los documentos de progreso
+
+                const querySnapshot = await getDocs(progressRef);
+
+                let activeDays = 0;
+
+
+
+                querySnapshot.forEach(docSnap => {
+
+                    const data = docSnap.data();
+
+                    // Comprobamos si hay al menos una entrada de texto
+
+                    const hasAffirmation = data.morningAffirmation && data.morningAffirmation.trim() !== '';
+
+                    const hasIntention = data.morningIntention && data.morningIntention.trim() !== '';
+
+                    const hasGratitude = data.nightGratitude && data.nightGratitude.trim() !== '';
+
+                    const hasActivities = data.dayActivities && data.dayActivities.some(a => a && a.trim() !== '');
+
+
+
+                    if (hasAffirmation || hasIntention || hasGratitude || hasActivities) {
+
+                        activeDays++;
+
+                    }
+
+                });
+
+                // console.log("Días activos contados:", activeDays);
+
+                return activeDays;
+
+
+
+            } catch (error) {
+
+                console.error("Error contando días activos:", error);
+
+                return 0;
+
+            }
+
+        }
+
+
+
+        /**
+
+         * Genera el botón de Comentario del Día 21.
+
+         * @param {number} activeDaysCount - Número de días con actividad registrada.
+
+         * @returns {string} HTML del botón de Comentario.
+
+         */
+
+        function getCommentButtonHtml(activeDaysCount) {
+
+            const requiredDays = 15;
+
+            const isEnabled = activeDaysCount >= requiredDays;
+
+           
+
+            // Botón que siempre se muestra, pero se habilita visualmente y funcionalmente
+
+            const enabledClasses = 'bg-success-green hover:bg-emerald-600 border-emerald-700';
+
+            const disabledClasses = 'disabled-button bg-gray-400 border-gray-600';
+
+            const classes = isEnabled ? enabledClasses : disabledClasses;
+
+            const action = isEnabled ?
+
+                `showToast('¡Felicitaciones! Enlace de reseña simulado. Abrir una nueva pestaña para el formulario.', 5000)` :
+
+                `showToast('Necesitas registrar tu actividad en al menos ${requiredDays} días para desbloquear el comentario. Llevas ${activeDaysCount} días.', 5000)`;
+
+
+
+            return `
+
+                <div class="mt-8 pt-4 border-t border-gray-200">
+
+                    <h3 class="font-bold text-lg text-primary-indigo mb-3 text-center">¡Celebra tu Transformación!</h3>
+
+                    <button onclick="${action}"
+
+                            class="action-button-style block w-full text-center py-4 px-4 text-white font-extrabold rounded-xl transition duration-200 shadow-xl border-b-4 ${classes}">
+
+                        <span class="text-xl leading-none">Comentar tu Experiencia</span>
+
+                        <span class="block mt-1 text-xs font-medium opacity-90">${isEnabled ? '(Botón Desbloqueado)' : `(Actividad: ${activeDaysCount}/${requiredDays} días)`}</span>
+
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+       
+
+        // --- LÓGICA DE DESCARGA ---
+
+       
+
+        /**
+
+         * Genera y descarga un archivo TXT con todo el progreso del usuario.
+
+         */
+
+        async function downloadProgress() {
+
+            if (!isAuthReady || !userId || !appId) return showToast("Error de autenticación, no se puede descargar.");
+
+           
+
+            showToast("Recopilando datos para la descarga...");
+
+
+
+            const progressRef = collection(db, 'artifacts', appId, 'users', userId, 'challenge_progress');
+
+           
+
+            try {
+
+                const querySnapshot = await getDocs(progressRef);
+
+                let progressData = {};
+
+               
+
+                querySnapshot.forEach(docSnap => {
+
+                    const dayId = docSnap.id;
+
+                    progressData[dayId] = docSnap.data();
+
+                });
+
+
+
+                // Ordenar los datos por número de día
+
+                const sortedDays = Object.keys(progressData)
+
+                    .sort((a, b) => parseInt(a.split('-')[1]) - parseInt(b.split('-')[1]));
+
+
+
+                let fileContent = "DIARIO DE TRANSFORMACIÓN - PROGRAMA 21 DÍAS AMOR PROPIO\n";
+
+                fileContent += `Usuario ID: ${userId}\n`;
+
+                fileContent += `Fecha de Descarga: ${new Date().toLocaleDateString()}\n\n`;
+
+                fileContent += "=================================================\n\n";
+
+
+
+                sortedDays.forEach(dayId => {
+
+                    const dayNumber = dayId.split('-')[1];
+
+                    const data = progressData[dayId];
+
+                    const dayTitle = dailyContent[dayNumber - 1] ? dailyContent[dayNumber - 1].title : `Día ${dayNumber}`;
+
+                   
+
+                    fileContent += `\n--- ${dayTitle} ---\n`;
+
+                    fileContent += `  Afirmación Matutina: ${data.morningAffirmation || 'No registrado'}\n`;
+
+                    fileContent += `  Intención del Día: ${data.morningIntention || 'No registrado'}\n`;
+
+                    fileContent += `  Gratitud Nocturna: ${data.nightGratitude || 'No registrado'}\n`;
+
+                   
+
+                    if (data.dayActivities && data.dayActivities.length > 0) {
+
+                        fileContent += "  Otras Actividades/Diario:\n";
+
+                        data.dayActivities.forEach((activity, index) => {
+
+                            if (activity && activity.trim() !== '') {
+
+                                fileContent += `    - [Entrada ${index + 1}]: ${activity}\n`;
+
+                            }
+
+                        });
+
+                    }
+
+                });
+
+
+
+                // Crear y descargar el archivo TXT
+
+                const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+
+                a.href = url;
+
+                a.download = `Progreso_21_Dias_Amor_Propio_${new Date().toLocaleDateString()}.txt`;
+
+                document.body.appendChild(a);
+
+                a.click();
+
+                document.body.removeChild(a);
+
+                URL.revokeObjectURL(url);
+
+                showToast("Descarga completada.", 1500);
+
+
+
+            } catch (error) {
+
+                console.error("Error durante la descarga:", error);
+
+                showToast("Error al procesar la descarga de datos.", 3000);
+
+            }
+
+        }
+
+
+
+        // --- MANEJO DE MODALES ---
+
+
+
+        const dayContentModal = document.getElementById('dayContentModal');
+
+        const crisisProtocolModal = document.getElementById('crisisProtocolModal');
+
+
+
+        /**
+
+         * Cierra el modal de contenido diario.
+
+         */
+
+        function closeDayModal() {
+
+            dayContentModal.classList.add('hidden');
+
+            dayContentModal.classList.remove('flex');
+
+        }
+
+
+
+   
